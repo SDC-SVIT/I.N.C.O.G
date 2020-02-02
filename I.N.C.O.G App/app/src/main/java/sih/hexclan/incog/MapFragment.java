@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,14 +27,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap googleMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
+    View root;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_map, container, false);
+        root = inflater.inflate(R.layout.fragment_map, container, false);
         mapView = root.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
-
         return root;
     }
 
@@ -55,18 +57,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         this.googleMap.setMaxZoomPreference(1200);
 
         LatLng svit = new LatLng(22.4690, 73.0763);
-        this.googleMap.addMarker(new MarkerOptions()
-                .position(svit)
-                .title("INCOG")
-        );
+//        this.googleMap.addMarker(new MarkerOptions()
+//                .position(svit)
+//                .title("INCOG")
+//        );
         this.googleMap.moveCamera(CameraUpdateFactory.zoomTo(18));
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(svit));
+        this.googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                googleMap.addMarker(new MarkerOptions().position(latLng).title("Required Location"));
+                MainActivity.requiredLocation = latLng;
+                ((Button)root.findViewById(R.id.startSnapping)).setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override

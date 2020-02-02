@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sih.hexclan.incog">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <permission
         android:name="com.example.permission.MAPS_RECEIVE"
@@ -17,12 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
 
-
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyCEjdHut2hAfByS29kF5Y_1bVVZcV2wDt8"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCEjdHut2hAfByS29kF5Y_1bVVZcV2wDt8" />
         <activity android:name="sih.hexclan.incog.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
