@@ -53,15 +53,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private OnNmeaMessageListener nmeaMessageListener = new OnNmeaMessageListener() {
-        @Override
-        public void onNmeaMessage(String message, long timestamp) {
-//            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-            String[] split = message.split(",");
-            Log.d(TAG, "onNmeaMessage: " + message);
-
-        }
-    };
+//    private OnNmeaMessageListener nmeaMessageListener = new OnNmeaMessageListener() {
+//        @Override
+//        public void onNmeaMessage(String message, long timestamp) {
+////            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+//            String[] split = message.split(",");
+//            Log.d(TAG, "onNmeaMessage: " + message);
+//
+//        }
+//    };
 
 
 
@@ -81,28 +81,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void setNmeaMessageListener() {
-        Toast.makeText(this, "setNmeaMessageListener: Listener added", Toast.LENGTH_SHORT).show();
-        boolean isGpsProviderEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            return;
-
-        if (isGpsProviderEnabled) {
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    0,
-                    0.0f /* minDistance */,
-                    mLocationListener);
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    0,
-                    0.0f /* minDistance */,
-                    mLocationListener);
-            mLocationManager.addNmeaListener(nmeaMessageListener);
-        }
-
-    }
+//
+//    public void setNmeaMessageListener() {
+//        Toast.makeText(this, "setNmeaMessageListener: Listener added", Toast.LENGTH_SHORT).show();
+//        boolean isGpsProviderEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+//        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+//            return;
+//
+//        if (isGpsProviderEnabled) {
+//            mLocationManager.requestLocationUpdates(
+//                    LocationManager.GPS_PROVIDER,
+//                    0,
+//                    0.0f /* minDistance */,
+//                    mLocationListener);
+//            mLocationManager.requestLocationUpdates(
+//                    LocationManager.GPS_PROVIDER,
+//                    0,
+//                    0.0f /* minDistance */,
+//                    mLocationListener);
+//            mLocationManager.addNmeaListener(nmeaMessageListener);
+//        }
+//
+//    }
 
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

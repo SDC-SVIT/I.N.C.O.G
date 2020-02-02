@@ -47,7 +47,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         public void onLocationChanged(Location location) {
             Log.d(TAG, "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude());
             LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
             Toast.makeText(getContext(), "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
         }
 
@@ -116,7 +116,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         this.googleMap.setMaxZoomPreference(1200);
 
-        LatLng svit = new LatLng(52.4690, 13.0763);
+        LatLng svit = new LatLng(22.4690, 73.0763);
 
         this.googleMap.addMarker(new MarkerOptions()
                 .position(svit)
