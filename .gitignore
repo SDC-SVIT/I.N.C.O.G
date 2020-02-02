@@ -1,19 +1,19 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-I.N.C.O.G App/local.properties
-I.N.C.O.G App/.idea/caches/build_file_checksums.ser
-I.N.C.O.G App/.idea/caches/gradle_models.ser
-I.N.C.O.G App/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_17_0_0_aar.xml
-I.N.C.O.G App/.idea/workspace.xml
+/I.N.C.O.G App/*.iml
+/I.N.C.O.G App/.gradle
+/I.N.C.O.G App/local.properties
+/I.N.C.O.G App/.idea/caches
+/I.N.C.O.G App/.idea/libraries
+/I.N.C.O.G App/.idea/modules.xml
+/I.N.C.O.G App/.idea/workspace.xml
+/I.N.C.O.G App/.idea/navEditor.xml
+/I.N.C.O.G App/.idea/assetWizardSettings.xml
+/I.N.C.O.G App/.DS_Store
+/I.N.C.O.G App/build
+/I.N.C.O.G App/captures
+/I.N.C.O.G App/.externalNativeBuild
+/I.N.C.O.G App/.cxx
+/I.N.C.O.G App/local.properties
+/I.N.C.O.G App/.idea/caches/build_file_checksums.ser
+/I.N.C.O.G App/.idea/caches/gradle_models.ser
+/I.N.C.O.G App/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_17_0_0_aar.xml
+/I.N.C.O.G App/.idea/workspace.xml
