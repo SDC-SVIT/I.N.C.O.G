@@ -67,9 +67,46 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         );
         this.googleMap.moveCamera(CameraUpdateFactory.zoomTo(18));
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(svit));
-
-
-
     }
+
+    @Override
+    public void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        mapView.onLowMemory();
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onPause() {
+        mapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+
+        mapView.onResume();
+        super.onResume();
+    }
+
+
+    @Override
+    public void onStart() {
+        mapView.onStart();
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        mapView.onStop();
+        super.onStop();
+    }
+
+
 
 }
