@@ -1,11 +1,13 @@
 package sih.hexclan.incog;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -24,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private static final long LOCATION_RATE_GPS_MS = TimeUnit.SECONDS.toMillis(1L);
     private static final long LOCATION_RATE_NETWORK_MS = TimeUnit.SECONDS.toMillis(60L);
     private LocationManager mLocationManager;
+    private static final int LOCATION_PERMISSION_REQUEST = 1;
+    private static final String[] REQUIRED_PERMISSIONS = {
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
 
     @Override
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //        registerLocation();
+        requestPermissions(REQUIRED_PERMISSIONS, LOCATION_PERMISSION_REQUEST);
         setNmeaMessageListener();
 
 //        Location location = new Location(LocationManager.GPS_PROVIDER);
@@ -75,17 +82,27 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onNmeaMessage(String message, long timestamp) {
 //            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onNmeaMessage: "+message);
+            String[] split = message.split(",");
+            if (split[0].equals("$GNRMC")) {
+                Log.d(TAG, "onNmeaMessage: " + message);
+            }
         }
     };
 
     public void registerLocation() {
         boolean isGpsProviderEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (isGpsProviderEnabled) {
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Requesting Location", Toast.LENGTH_SHORT).show();
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    Activity#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
                 return;
             }
-            Toast.makeText(this, "Requesting Location", Toast.LENGTH_SHORT).show();
             mLocationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
                     0,
@@ -102,15 +119,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setNmeaMessageListener() {
-        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        Toast.makeText(this, "setNmeaMessageListener: Listener added", Toast.LENGTH_SHORT).show();
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    Activity#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
             return;
         }
-        Toast.makeText(this, "setNmeaMessageListener: Listener added", Toast.LENGTH_SHORT).show();
         mLocationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 0,
                 0.0f /* minDistance */,
                 mLocationListener);
         mLocationManager.addNmeaListener(nmeaMessageListener);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        setNmeaMessageListener();
     }
 }
