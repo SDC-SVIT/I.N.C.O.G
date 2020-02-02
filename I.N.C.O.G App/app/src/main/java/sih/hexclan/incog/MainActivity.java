@@ -14,6 +14,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         registerLocation();
+
+//        Location location = new Location(LocationManager.GPS_PROVIDER);
+//        Log.d(TAG, "onCreate: "+ location.getLatitude()+" "+location.getLongitude());
+//        Toast.makeText(this, "onCreate: "+ location.getLatitude()+" "+location.getLongitude(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, " "+location.getProvider() , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, ""+mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
             Log.d(TAG, "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude());
+            Toast.makeText(MainActivity.this, "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -67,16 +75,9 @@ public class MainActivity extends AppCompatActivity {
         boolean isGpsProviderEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (isGpsProviderEnabled) {
             if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    Activity#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
                 return;
             }
-            Log.d(TAG, "registerLocation: in here");
+            Toast.makeText(this, "Requesting Location", Toast.LENGTH_SHORT).show();
             mLocationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
                     LOCATION_RATE_NETWORK_MS,
@@ -89,5 +90,6 @@ public class MainActivity extends AppCompatActivity {
                     0.0f /* minDistance */,
                     mLocationListener);
         }
+
     }
 }
