@@ -1,4 +1,4 @@
-package sih.hexclan.gnssghost;
+package sih.hexclan.incog;
 
 import org.junit.Test;
 

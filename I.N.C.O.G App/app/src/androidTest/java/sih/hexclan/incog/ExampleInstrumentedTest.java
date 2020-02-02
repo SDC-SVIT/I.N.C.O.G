@@ -1,4 +1,4 @@
-package sih.hexclan.gnssghost;
+package sih.hexclan.incog;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("sih.hexclan.gnssghost", appContext.getPackageName());
+        assertEquals("sih.hexclan.incog", appContext.getPackageName());
     }
 }

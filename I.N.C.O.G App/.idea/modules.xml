@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GNSS Ghost.iml" filepath="$PROJECT_DIR$/GNSS Ghost.iml" />
+      <module fileurl="file://$PROJECT_DIR$/I.N.C.O.G.iml" filepath="$PROJECT_DIR$/I.N.C.O.G.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
