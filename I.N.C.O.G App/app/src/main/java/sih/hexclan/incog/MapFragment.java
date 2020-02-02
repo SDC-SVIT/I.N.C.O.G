@@ -1,6 +1,7 @@
 package sih.hexclan.incog;
 
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -26,6 +27,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap googleMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
+    Location location;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.googleMap.setMaxZoomPreference(1200);
 
         LatLng svit = new LatLng(22.4690, 73.0763);
+
         this.googleMap.addMarker(new MarkerOptions()
                 .position(svit)
                 .title("INCOG")

@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.OnNmeaMessageListener;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -35,24 +36,23 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, mapFragment);
         fragmentTransaction.commit();
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        registerLocation();
+//        registerLocation();
+        setNmeaMessageListener();
 
 //        Location location = new Location(LocationManager.GPS_PROVIDER);
 //        Log.d(TAG, "onCreate: "+ location.getLatitude()+" "+location.getLongitude());
 //        Toast.makeText(this, "onCreate: "+ location.getLatitude()+" "+location.getLongitude(), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, " "+location.getProvider() , Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, ""+mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "" + mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER), Toast.LENGTH_SHORT).show();
     }
 
 
     private LocationListener mLocationListener = new LocationListener() {
 
-
         @Override
         public void onLocationChanged(Location location) {
             Log.d(TAG, "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude());
             Toast.makeText(MainActivity.this, "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-
         }
 
         @Override
@@ -71,6 +71,14 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private OnNmeaMessageListener nmeaMessageListener = new OnNmeaMessageListener() {
+        @Override
+        public void onNmeaMessage(String message, long timestamp) {
+//            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onNmeaMessage: "+message);
+        }
+    };
+
     public void registerLocation() {
         boolean isGpsProviderEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (isGpsProviderEnabled) {
@@ -80,16 +88,29 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Requesting Location", Toast.LENGTH_SHORT).show();
             mLocationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
-                    LOCATION_RATE_NETWORK_MS,
+                    0,
                     0.0f /* minDistance */,
                     mLocationListener);
 
             mLocationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
-                    LOCATION_RATE_GPS_MS,
+                    0,
                     0.0f /* minDistance */,
                     mLocationListener);
         }
 
+    }
+
+    public void setNmeaMessageListener() {
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Toast.makeText(this, "setNmeaMessageListener: Listener added", Toast.LENGTH_SHORT).show();
+        mLocationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                0,
+                0.0f /* minDistance */,
+                mLocationListener);
+        mLocationManager.addNmeaListener(nmeaMessageListener);
     }
 }
