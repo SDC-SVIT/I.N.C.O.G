@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">I.N.C.O.G</string>
+    <string name="Maps_API">AIzaSyCEjdHut2hAfByS29kF5Y_1bVVZcV2wDt8</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
