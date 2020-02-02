@@ -2,6 +2,8 @@ package sih.hexclan.incog;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +43,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CAMERA
     };
+    SharedPreferences sharedPreferences;
 
     private LocationListener mLocationListener = new LocationListener() {
 
@@ -83,9 +87,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView = root.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
+        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("perm", Context.MODE_PRIVATE);
+
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        requestPermissions(REQUIRED_PERMISSIONS, LOCATION_PERMISSION_REQUEST);
-        setNmeaMessageListener();
+        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && getActivity().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("perm", true);
+            requestPermissions(REQUIRED_PERMISSIONS, LOCATION_PERMISSION_REQUEST);
+        }
+        else
+            setNmeaMessageListener();
         return root;
     }
 
@@ -129,6 +140,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "onRequestPermissionsResult: this is called");
         setNmeaMessageListener();
     }
 
