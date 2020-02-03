@@ -222,11 +222,11 @@ class CameraFragment : Fragment() {
 
                     // Display the photo taken to user
                     lifecycleScope.launch(Dispatchers.Main) {
-//                        navController.navigate(CameraFragmentDirections
-//                                .actionCameraToJpegViewer(output.absolutePath)
-//                                .setOrientation(result.orientation)
-//                                .setDepth(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-//                                        result.format == ImageFormat.DEPTH_JPEG))
+                        navController.navigate(CameraFragmentDirections
+                                .actionCameraToJpegViewer(output.absolutePath)
+                                .setOrientation(result.orientation)
+                                .setDepth(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                                        result.format == ImageFormat.DEPTH_JPEG))
                     }
                 }
 

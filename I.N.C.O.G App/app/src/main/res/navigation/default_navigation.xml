@@ -28,9 +28,14 @@
             app:argType="integer"
             app:nullable="false" />
 
+<!--        <action-->
+<!--            android:id="@+id/action_cameraFragment_to_imageViewerFragment"-->
+<!--            app:destination="@id/imageViewerFragment" />-->
         <action
-            android:id="@+id/action_cameraFragment_to_imageViewerFragment"
+            android:id="@+id/action_camera_to_jpeg_viewer"
+            app:launchSingleTop="true"
             app:destination="@id/imageViewerFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/imageViewerFragment"

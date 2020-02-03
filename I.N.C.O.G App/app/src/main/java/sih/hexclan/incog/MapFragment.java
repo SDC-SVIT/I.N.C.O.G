@@ -77,7 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         public void onNmeaMessage(String message, long timestamp) {
             // Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             String[] split = message.split(",");
-            Log.d(TAG, "onNmeaMessage: " + message);
+//            Log.d(TAG, "onNmeaMessage: " + message);
 
         }
     };
