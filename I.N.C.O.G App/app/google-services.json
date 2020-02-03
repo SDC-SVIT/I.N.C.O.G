@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "937377150532-6v2gq8kgvqkfagfmapah07f8n9lp346j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sih.hexclan.incog",
+            "certificate_hash": "94ca9c0b8bbcf504bfd1a1e4d37dbffb7df31e63"
+          }
+        },
+        {
           "client_id": "937377150532-ulrt391otps32igdet2hm0s8si0lkpfp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

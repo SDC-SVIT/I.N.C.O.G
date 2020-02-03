@@ -38,6 +38,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     View root;
+    static Location location;
 
     private LocationManager mLocationManager;
     private static final int LOCATION_PERMISSION_REQUEST = 1;
@@ -49,6 +50,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         public void onLocationChanged(Location location) {
+            MapFragment.location = location;
             Log.d(TAG, "onLocationChanged: " + location.getLatitude() + " " + location.getLongitude());
             LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             // googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLng));
@@ -77,7 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         public void onNmeaMessage(String message, long timestamp) {
             // Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             String[] split = message.split(",");
-            Log.d(TAG, "onNmeaMessage: " + message);
+//            Log.d(TAG, "onNmeaMessage: " + message);
 
         }
     };
@@ -163,18 +165,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    public void activateClick(View view) {
-//        Fragment cameraFrag = new CameraFragment();
-        Toast.makeText(getActivity(), "Click Activated!! Latlong are:"+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "activateClick: Latlong are : "+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude);
-        try {
-            Navigation.findNavController(getActivity(),R.id.frame_layout).navigate(MapFragmentDirections.actionMapFragmentToCameraFragment(((CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE)).getCameraIdList()[0], ImageFormat.JPEG));
-
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-//        this.getSupportFragmentManager().beginTransaction().replace(R.id.cameraFragment, cameraFrag).commit();
-    }
+//    public void activateClick(View view) {
+////        Fragment cameraFrag = new CameraFragment();
+//        Toast.makeText(getActivity(), "Click Activated!! Latlong are:"+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude, Toast.LENGTH_SHORT).show();
+//        Log.d(TAG, "activateClick: Latlong are : "+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude);
+//        try {
+////            Navigation.findNavController(getActivity(),R.id.frame_layout).navigate(MapFragmentDirections.actionMapFragmentToCameraFragment(((CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE)).getCameraIdList()[0], ImageFormat.JPEG));
+//
+//        } catch (CameraAccessException e) {
+//            e.printStackTrace();
+//        }
+////        this.getSupportFragmentManager().beginTransaction().replace(R.id.cameraFragment, cameraFrag).commit();
+//    }
 
 
     @Override

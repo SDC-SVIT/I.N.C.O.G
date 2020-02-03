@@ -28,8 +28,10 @@ import android.hardware.camera2.CaptureRequest
 import android.hardware.camera2.CaptureResult
 import android.hardware.camera2.DngCreator
 import android.hardware.camera2.TotalCaptureResult
+import android.location.Location
 import android.media.Image
 import android.media.ImageReader
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -48,6 +50,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 //import com.example.android.camera2.common.computeExifOrientation
 import sih.hexclan.incog.computeExifOrientation
 //import com.example.android.camera2.common.getPreviewOutputSize
@@ -123,6 +129,11 @@ class CameraFragment : Fragment() {
     /** Live data listener for changes in the device orientation relative to the camera */
     private lateinit var relativeOrientation: OrientationLiveData
 
+
+    /** Location instance to put in EXIF metadata of jpeg image**/
+    private lateinit var mStorageRef: StorageReference
+
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -160,10 +171,16 @@ class CameraFragment : Fragment() {
 
         // Used to rotate the output media to match device orientation
         relativeOrientation = OrientationLiveData(requireContext(), characteristics).apply {
-            observe(this@CameraFragment, Observer {
-                orientation -> Log.d(TAG, "Orientation changed: $orientation")
+            observe(this@CameraFragment, Observer { orientation ->
+                Log.d(TAG, "Orientation changed: $orientation")
             })
         }
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mStorageRef = FirebaseStorage.getInstance().getReference()
     }
 
     /**
@@ -206,10 +223,10 @@ class CameraFragment : Fragment() {
             lifecycleScope.launch(Dispatchers.IO) {
                 takePhoto().use { result ->
                     Log.d(TAG, "Result received: $result")
-
                     // Save the result to disk
                     val output = saveResult(result)
                     Log.d(TAG, "Image saved: ${output.absolutePath}")
+                    Log.d(TAG, " output = " + output)
 
                     // If the result is a JPEG file, update EXIF metadata with orientation info
                     if (output.extension == "jpg") {
@@ -219,14 +236,24 @@ class CameraFragment : Fragment() {
                         exif.saveAttributes()
                         Log.d(TAG, "EXIF metadata saved: ${output.absolutePath}")
                     }
+//                    Upload image to Firebase storage
+                    var location = MapFragment.location
+                    Log.d(TAG, "LATITUDE LONGITUDE ARE: " + location.latitude + " " + location.longitude)
+                    val riversRef = mStorageRef.child (output.absolutePath)
+
+//                    riversRef.putFile(Uri.parse(output.absolutePath))
+//                            .addOnSuccessListener(OnSuccessListener {
+//
+//                            }
+//
 
                     // Display the photo taken to user
                     lifecycleScope.launch(Dispatchers.Main) {
-//                        navController.navigate(CameraFragmentDirections
-//                                .actionCameraToJpegViewer(output.absolutePath)
-//                                .setOrientation(result.orientation)
-//                                .setDepth(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
-//                                        result.format == ImageFormat.DEPTH_JPEG))
+                        navController.navigate(CameraFragmentDirections
+                                .actionCameraToJpegViewer(output.absolutePath)
+                                .setOrientation(result.orientation)
+                                .setDepth(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                                        result.format == ImageFormat.DEPTH_JPEG))
                     }
                 }
 
@@ -252,7 +279,7 @@ class CameraFragment : Fragment() {
             }
 
             override fun onError(device: CameraDevice, error: Int) {
-                val msg = when(error) {
+                val msg = when (error) {
                     ERROR_CAMERA_DEVICE -> "Fatal (device)"
                     ERROR_CAMERA_DISABLED -> "Device policy"
                     ERROR_CAMERA_IN_USE -> "Camera in use"
@@ -279,7 +306,7 @@ class CameraFragment : Fragment() {
 
         // Create a capture session using the predefined targets; this also involves defining the
         // session state callback to be notified of when the session is ready
-        device.createCaptureSession(targets, object: CameraCaptureSession.StateCallback() {
+        device.createCaptureSession(targets, object : CameraCaptureSession.StateCallback() {
 
             override fun onConfigured(session: CameraCaptureSession) = cont.resume(session)
 
@@ -301,7 +328,8 @@ class CameraFragment : Fragment() {
 
         // Flush any images left in the image reader
         @Suppress("ControlFlowWithEmptyBody")
-        while (imageReader.acquireNextImage() != null) {}
+        while (imageReader.acquireNextImage() != null) {
+        }
 
         // Start a new image queue
         val imageQueue = ArrayBlockingQueue<Image>(IMAGE_BUFFER_SIZE)
@@ -341,7 +369,7 @@ class CameraFragment : Fragment() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
                                 image.format != ImageFormat.DEPTH_JPEG &&
                                 image.timestamp != resultTimestamp) continue
-                         Log.d(TAG, "Matching image dequeued: ${image.timestamp}")
+                        Log.d(TAG, "Matching image dequeued: ${image.timestamp}")
 
                         // Unset the image reader listener
                         imageReaderHandler.removeCallbacks(timeoutRunnable)
