@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_mapFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+
+
+
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -27,7 +30,6 @@
             android:name="pixel_format"
             app:argType="integer"
             app:nullable="false" />
-
 <!--        <action-->
 <!--            android:id="@+id/action_cameraFragment_to_imageViewerFragment"-->
 <!--            app:destination="@id/imageViewerFragment" />-->
