@@ -32,20 +32,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Objects;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = "MapsFragment";
     private MapView mapView;
-    private GoogleMap googleMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
-    View root;
-    static Location location;
+    private View root;
+    private static Location location;
 
     private LocationManager mLocationManager;
     private static final int LOCATION_PERMISSION_REQUEST = 1;
     private static final String[] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CAMERA};
-    SharedPreferences sharedPreferences;
-    Marker marker;
+    private Marker marker;
     private LocationListener mLocationListener = new LocationListener() {
 
         @Override
@@ -74,14 +74,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     };
 
-    private OnNmeaMessageListener nmeaMessageListener = new OnNmeaMessageListener() {
-        @Override
-        public void onNmeaMessage(String message, long timestamp) {
-            // Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-            String[] split = message.split(",");
+    private OnNmeaMessageListener nmeaMessageListener = (message, timestamp) -> {
+        // Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+        String[] split = message.split(",");
 //            Log.d(TAG, "onNmeaMessage: " + message);
 
-        }
     };
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,7 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView = root.findViewById(R.id.mapView);
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
-        sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("perm", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getApplicationContext().getSharedPreferences("perm", Context.MODE_PRIVATE);
 
 //        root.findViewById(R.id.startSnapping).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -116,15 +113,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("perm", true);
             requestPermissions(REQUIRED_PERMISSIONS, LOCATION_PERMISSION_REQUEST);
+            editor.apply();
         } else
             setNmeaMessageListener();
         return root;
     }
 
-    public void setNmeaMessageListener() {
+    private void setNmeaMessageListener() {
         Toast.makeText(getContext(), "setNmeaMessageListener: Listener added", Toast.LENGTH_SHORT).show();
         boolean isGpsProviderEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (getActivity()
+        if (Objects.requireNonNull(getActivity())
                 .checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && getActivity().checkSelfPermission(
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -142,9 +140,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        this.googleMap = googleMap;
-        this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        this.googleMap.setMaxZoomPreference(1200);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        googleMap.setMaxZoomPreference(1200);
 
         LatLng svit = new LatLng(22.4690, 73.0763);
         // this.googleMap.addMarker(new MarkerOptions()
@@ -152,9 +149,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // .title("INCOG")
         // );
 
-        this.googleMap.moveCamera(CameraUpdateFactory.zoomTo(18));
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(svit));
-        this.googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        googleMap.moveCamera(CameraUpdateFactory.zoomTo(18));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(svit));
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 if (marker!=null){marker.remove();}
