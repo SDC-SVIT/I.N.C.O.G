@@ -17,45 +17,45 @@
 
 
     </fragment>
-    <fragment
-        android:id="@+id/cameraFragment"
-        android:name="sih.hexclan.incog.CameraFragment"
-        android:label="CameraFragment">
-        <argument
-            android:name="camera_id"
-            app:argType="string"
-            app:nullable="false" />
+<!--    <fragment-->
+<!--        android:id="@+id/cameraFragment"-->
+<!--        android:name="sih.hexclan.incog.CameraFragment"-->
+<!--        android:label="CameraFragment">-->
+<!--        <argument-->
+<!--            android:name="camera_id"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="false" />-->
 
-        <argument
-            android:name="pixel_format"
-            app:argType="integer"
-            app:nullable="false" />
+<!--        <argument-->
+<!--            android:name="pixel_format"-->
+<!--            app:argType="integer"-->
+<!--            app:nullable="false" />-->
+<!--&lt;!&ndash;        <action&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/action_cameraFragment_to_imageViewerFragment"&ndash;&gt;-->
+<!--&lt;!&ndash;            app:destination="@id/imageViewerFragment" />&ndash;&gt;-->
 <!--        <action-->
-<!--            android:id="@+id/action_cameraFragment_to_imageViewerFragment"-->
+<!--            android:id="@+id/action_camera_to_jpeg_viewer"-->
+<!--            app:launchSingleTop="true"-->
 <!--            app:destination="@id/imageViewerFragment" />-->
-        <action
-            android:id="@+id/action_camera_to_jpeg_viewer"
-            app:launchSingleTop="true"
-            app:destination="@id/imageViewerFragment" />
 
-    </fragment>
-    <fragment
-        android:id="@+id/imageViewerFragment"
-        android:name="sih.hexclan.incog.ImageViewerFragment"
-        android:label="ImageViewerFragment" >
-        <argument
-            android:name="file_path"
-            app:argType="string"
-            app:nullable="false"/>
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/imageViewerFragment"-->
+<!--        android:name="sih.hexclan.incog.ImageViewerFragment"-->
+<!--        android:label="ImageViewerFragment" >-->
+<!--        <argument-->
+<!--            android:name="file_path"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="false"/>-->
 
-        <argument
-            android:name="orientation"
-            app:argType="integer"
-            android:defaultValue="0" />
+<!--        <argument-->
+<!--            android:name="orientation"-->
+<!--            app:argType="integer"-->
+<!--            android:defaultValue="0" />-->
 
-        <argument
-            android:name="depth"
-            app:argType="boolean"
-            android:defaultValue="false" />
-    </fragment>
+<!--        <argument-->
+<!--            android:name="depth"-->
+<!--            app:argType="boolean"-->
+<!--            android:defaultValue="false" />-->
+<!--    </fragment>-->
 </navigation>

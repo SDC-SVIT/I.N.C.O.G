@@ -91,22 +91,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         sharedPreferences = getActivity().getApplicationContext().getSharedPreferences("perm", Context.MODE_PRIVATE);
 
-        root.findViewById(R.id.startSnapping).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                nt cameraFrag = new CameraFragment();
-                    Toast.makeText(getActivity(), "Click Activated!! Latlong are:"+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude, Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "activateClick: Latlong are : "+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude);
-                    try {
-                        Navigation.findNavController(getActivity(),R.id.frame_layout).navigate(MapFragmentDirections.actionMapFragmentToCameraFragment(((CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE)).getCameraIdList()[0], ImageFormat.JPEG));
-
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
-//        this.getSupportFragmentManager().beginTransaction().replace(R.id.cameraFragment, cameraFrag).commit();
-                }
-
-        });
+//        root.findViewById(R.id.startSnapping).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+////                nt cameraFrag = new CameraFragment();
+//                    Toast.makeText(getActivity(), "Click Activated!! Latlong are:"+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude, Toast.LENGTH_SHORT).show();
+//                    Log.d(TAG, "activateClick: Latlong are : "+MainActivity.requiredLocation.latitude+" "+MainActivity.requiredLocation.longitude);
+//                    try {
+//                        Navigation.findNavController(getActivity(),R.id.frame_layout).navigate(MapFragmentDirections.actionMapFragmentToCameraFragment(((CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE)).getCameraIdList()[0], ImageFormat.JPEG));
+//
+//                    } catch (CameraAccessException e) {
+//                        e.printStackTrace();
+//                    }
+////        this.getSupportFragmentManager().beginTransaction().replace(R.id.cameraFragment, cameraFrag).commit();
+//                }
+//
+//        });
 
         mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (getActivity()

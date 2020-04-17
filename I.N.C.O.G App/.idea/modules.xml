@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/I.N.C.O.G.iml" filepath="$PROJECT_DIR$/I.N.C.O.G.iml" />
       <module fileurl="file://$PROJECT_DIR$/I.N.C.O.G App-I.N.C.O.G.iml" filepath="$PROJECT_DIR$/I.N.C.O.G App-I.N.C.O.G.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/I.N.C.O.G-I.N.C.O.G App-I.N.C.O.G.iml" filepath="$PROJECT_DIR$/I.N.C.O.G-I.N.C.O.G App-I.N.C.O.G.iml" group="I.N.C.O.G" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="I.N.C.O.G/app" />
     </modules>
   </component>
 </project>
